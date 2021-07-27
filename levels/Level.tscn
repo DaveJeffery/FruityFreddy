@@ -1,0 +1,126 @@
+[gd_scene load_steps=25 format=2]
+
+[ext_resource path="res://freddy/Freddy.tscn" type="PackedScene" id=1]
+[ext_resource path="res://levels/Level.gd" type="Script" id=2]
+[ext_resource path="res://bonus/Bonus.tscn" type="PackedScene" id=3]
+[ext_resource path="res://caterpillar/Caterpillar.tscn" type="PackedScene" id=4]
+[ext_resource path="res://sparrow/Sparrow.tscn" type="PackedScene" id=5]
+[ext_resource path="res://dropping/Dropping.tscn" type="PackedScene" id=6]
+[ext_resource path="res://fruit/Fruit.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scenery/Scenery.tscn" type="PackedScene" id=8]
+[ext_resource path="res://hud/HUD.tscn" type="PackedScene" id=9]
+[ext_resource path="res://bee/Bee.tscn" type="PackedScene" id=10]
+[ext_resource path="res://ddt/DDT.tscn" type="PackedScene" id=11]
+[ext_resource path="res://scenery/BeeHive.tscn" type="PackedScene" id=12]
+[ext_resource path="res://meano/MrMeano.tscn" type="PackedScene" id=13]
+[ext_resource path="res://scenery/House.tscn" type="PackedScene" id=14]
+[ext_resource path="res://score/FruitScore.tscn" type="PackedScene" id=15]
+[ext_resource path="res://audio/mr-meano.ogg" type="AudioStream" id=16]
+[ext_resource path="res://audio/spray.ogg" type="AudioStream" id=17]
+[ext_resource path="res://audio/bee-kill.ogg" type="AudioStream" id=18]
+[ext_resource path="res://audio/bonus.ogg" type="AudioStream" id=19]
+[ext_resource path="res://audio/fred-die.ogg" type="AudioStream" id=20]
+[ext_resource path="res://audio/flower-200.ogg" type="AudioStream" id=21]
+[ext_resource path="res://audio/flower-300.ogg" type="AudioStream" id=22]
+[ext_resource path="res://audio/flower-100.ogg" type="AudioStream" id=23]
+[ext_resource path="res://audio/time.ogg" type="AudioStream" id=24]
+
+[node name="Level" type="Node2D"]
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_horizontal_guides_": [ 447.6, 498.455 ],
+"_edit_vertical_guides_": [ 349.481, 292.27 ]
+}
+Bonus = ExtResource( 3 )
+Caterpillar = ExtResource( 4 )
+Sparrow = ExtResource( 5 )
+Dropping = ExtResource( 6 )
+Fruit = ExtResource( 7 )
+Bee = ExtResource( 10 )
+DDT = ExtResource( 11 )
+Meano = ExtResource( 13 )
+FruitScore = ExtResource( 15 )
+
+[node name="Scenery" parent="." instance=ExtResource( 8 )]
+
+[node name="BeeHive" parent="." instance=ExtResource( 12 )]
+position = Vector2( 320, 472 )
+
+[node name="ScoreContainer" type="Node2D" parent="."]
+
+[node name="FruitContainer" type="Node2D" parent="."]
+
+[node name="BeeContainer" type="Node2D" parent="."]
+
+[node name="MeanoContainer" type="Node2D" parent="."]
+
+[node name="MeanoStart" type="Position2D" parent="."]
+position = Vector2( 56, 42 )
+
+[node name="House" parent="." instance=ExtResource( 14 )]
+position = Vector2( 56, 40 )
+
+[node name="Freddy" parent="." instance=ExtResource( 1 )]
+
+[node name="FreddyStart" type="Position2D" parent="."]
+position = Vector2( 64, 256 )
+
+[node name="HUD" parent="." instance=ExtResource( 9 )]
+
+[node name="BonusTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="CaterpillarTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="SparrowTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="BeeTimer" type="Timer" parent="."]
+
+[node name="LevelTimer" type="Timer" parent="."]
+wait_time = 3.0
+
+[node name="SprayTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
+[node name="MeanoAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 16 )
+
+[node name="SprayAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 17 )
+
+[node name="KillBeeAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 18 )
+
+[node name="BonusAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 19 )
+
+[node name="KillFredAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 20 )
+
+[node name="Fruit100Audio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 23 )
+
+[node name="Fruit200Audio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 21 )
+
+[node name="Fruit300Audio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 22 )
+
+[node name="TickAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 24 )
+
+[connection signal="bee" from="Freddy" to="." method="_on_Freddy_bee"]
+[connection signal="bonus" from="Freddy" to="." method="_on_Freddy_bonus"]
+[connection signal="fruit" from="Freddy" to="." method="_on_Freddy_fruit"]
+[connection signal="hazard" from="Freddy" to="." method="_on_Freddy_hazard"]
+[connection signal="reborn" from="Freddy" to="." method="_on_Freddy_reborn"]
+[connection signal="spray" from="Freddy" to="." method="_on_Freddy_spray"]
+[connection signal="timeout" from="BonusTimer" to="." method="_on_BonusTimer_timeout"]
+[connection signal="timeout" from="CaterpillarTimer" to="." method="_on_CaterpillarTimer_timeout"]
+[connection signal="timeout" from="SparrowTimer" to="." method="_on_SparrowTimer_timeout"]
+[connection signal="timeout" from="BeeTimer" to="." method="_on_BeeTimer_timeout"]
+[connection signal="timeout" from="LevelTimer" to="." method="_on_LevelTimer_timeout"]
+[connection signal="timeout" from="SprayTimer" to="." method="_on_SprayTimer_timeout"]

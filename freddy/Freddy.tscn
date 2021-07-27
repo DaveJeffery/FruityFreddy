@@ -1,0 +1,88 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://freddy/freddy.png" type="Texture" id=1]
+[ext_resource path="res://freddy/Freddy.gd" type="Script" id=2]
+[ext_resource path="res://ddt/ddt.png" type="Texture" id=3]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 34, 40, 34 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 1 )
+region = Rect2( 40, 34, 40, 34 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 40, 34 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 1 )
+region = Rect2( 40, 0, 40, 34 )
+
+[sub_resource type="SpriteFrames" id=5]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ) ],
+"loop": true,
+"name": "cry",
+"speed": 12.0
+}, {
+"frames": [ SubResource( 3 ), SubResource( 4 ) ],
+"loop": true,
+"name": "walk",
+"speed": 12.0
+} ]
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 3 )
+region = Rect2( 32, 0, 32, 24 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 3 )
+region = Rect2( 64, 0, 32, 24 )
+
+[sub_resource type="SpriteFrames" id=8]
+animations = [ {
+"frames": [ SubResource( 6 ), SubResource( 7 ) ],
+"loop": true,
+"name": "spray",
+"speed": 5.0
+} ]
+
+[sub_resource type="CircleShape2D" id=9]
+radius = 16.0
+
+[sub_resource type="RectangleShape2D" id=10]
+extents = Vector2( 16, 12 )
+
+[node name="Freddy" type="Area2D"]
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 5 )
+animation = "walk"
+frame = 1
+
+[node name="AnimatedSprite2" type="AnimatedSprite" parent="."]
+visible = false
+frames = SubResource( 8 )
+animation = "spray"
+playing = true
+
+[node name="FreddyCollision" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 2 )
+shape = SubResource( 9 )
+
+[node name="SprayCollision" type="CollisionShape2D" parent="."]
+shape = SubResource( 10 )
+disabled = true
+
+[node name="DieTimer" type="Timer" parent="."]
+wait_time = 4.0
+one_shot = true
+
+[connection signal="area_entered" from="." to="." method="_on_Freddy_area_entered"]
+[connection signal="timeout" from="DieTimer" to="." method="_on_DieTimer_timeout"]

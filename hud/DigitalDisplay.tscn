@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://hud/DigitalDisplay.gd" type="Script" id=1]
+[ext_resource path="res://hud/Digit.tscn" type="PackedScene" id=2]
+
+[node name="DigitalDisplay" type="Node2D"]
+script = ExtResource( 1 )
+Digit = ExtResource( 2 )
+digits = 6
+value = 72807

@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/bee-kill.ogg-71e6a1e36c03b7c948b4886160830f79.oggstr"
+
+[deps]
+
+source_file="res://audio/bee-kill.ogg"
+dest_files=[ "res://.import/bee-kill.ogg-71e6a1e36c03b7c948b4886160830f79.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
