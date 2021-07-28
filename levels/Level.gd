@@ -231,6 +231,7 @@ func lose_life():
 	if Global.current_lives > -1:
 		update_lives()
 	
+	$SprayTimer.stop()
 	spray_active = false
 	$SprayAudio.stop()
 	
@@ -317,7 +318,7 @@ func _on_Fruit_spawn(location):
 		$FruitContainer.add_child(fruit)
 
 func calc_flower_location() -> Vector2:
-	var pos = Vector2(0, 0)
+	var pos = Vector2.ZERO
 	
 	while !is_initial_plant_position(pos):
 		pos.x = rand_range(play_area_location.x, play_area.x)
@@ -330,7 +331,7 @@ func is_initial_plant_position(pos:Vector2) -> bool:
 	var freddy_start = Rect2(16, 208, 80, 304)
 	var bee_hive = Rect2(292, 448, 56, 48)
 	
-	if pos == Vector2(0, 0):
+	if pos == Vector2.ZERO:
 		return false
 	if freddy_start.has_point(pos):
 		return false
