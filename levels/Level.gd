@@ -38,6 +38,7 @@ var bonus_positions := [Vector2( 64,  80),
 						Vector2( 64, 480), 
 						Vector2(584, 480), 
 						Vector2(584,  80)]
+var bonus = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -98,7 +99,8 @@ func start_level_timer() -> void:
 	$LevelTimer.start()
 
 func start_bonus_timer() -> void:
-	$BonusTimer.wait_time = rand_range(3, 10)
+	$BonusTimer.wait_time = rand_range(3, 
+									max(5, 10 - (Global.current_level * 0.5)))
 	$BonusTimer.start()
 
 func start_caterpillar_timer() -> void:
@@ -129,10 +131,19 @@ func add_to_score(amount:int) -> void:
 		update_hi()
 
 func _on_BonusTimer_timeout() -> void:
-	var bonus = Bonus.instance()
-	bonus.level = Global.current_level
-	bonus.position = bonus_positions[randi() % 3]	
-	add_child(bonus)
+	if bonus != null and is_instance_valid(bonus):
+		bonus.queue_free()
+	else:
+		bonus = Bonus.instance()
+		bonus.level = Global.current_level
+		bonus.position = bonus_positions[randi() % 3]	
+		add_child(bonus)
+	start_bonus_timer()
+
+func remove_bonus() -> void:
+	if bonus != null and is_instance_valid(bonus):
+		bonus.queue_free()
+		start_bonus_timer()
 
 func _on_Freddy_bonus(_area) -> void:
 	add_to_score(100 * (Global.current_level + 1))
@@ -246,6 +257,7 @@ func _on_Freddy_reborn():
 	
 	clear_hazards()
 	check_spray()
+	remove_bonus()
 	$Freddy.position = $FreddyStart.position
 	start_sparrow_timer()
 	start_caterpillar_timer()
