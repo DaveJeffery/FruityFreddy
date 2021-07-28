@@ -26,6 +26,7 @@ var name_list:String
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	pause_mode = Node.PAUSE_MODE_PROCESS
 	prepare_table()
 
 
@@ -35,6 +36,11 @@ func _process(_delta):
 		AudioServer.set_bus_mute(AudioServer.get_bus_index("Master"), true)
 	if Input.is_action_pressed("fred_sound"):
 		AudioServer.set_bus_mute(AudioServer.get_bus_index("Master"), false)
+	if (Input.is_action_pressed("fred_freeze")
+				and get_tree().current_scene.name == "Level"):
+		get_tree().paused = true
+	if Input.is_action_pressed("fred_unfreeze"):
+		get_tree().paused = false
 
 func start_game() -> void:
 	current_score = 0
